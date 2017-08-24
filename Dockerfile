@@ -1,10 +1,12 @@
 FROM continuumio/miniconda3
-LABEL description="Idaho Data Engineers base image" \
+LABEL description="Idaho Data Engineers toolbox" \
       vendor="Idaho Data Engineers" \
       maintainer="Josh Watts, josh.watts@gmail.com"
 
-RUN apt-get update
-RUN apt-get install -y \
+ENV TERM=vt100 DEBIAN_FRONTEND=teletype
+
+RUN apt-get update >/dev/null 2>&1 && \
+    apt-get install -y \
     build-essential \
     sudo
 
@@ -15,13 +17,33 @@ RUN curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/dow
     && gpg --verify /usr/local/bin/gosu.asc \
     && rm /usr/local/bin/gosu.asc \
     && chmod +x /usr/local/bin/gosu
-    
 
-RUN apt-get clean
+# prep Docker install
+RUN  apt-get install -y \
+             apt-transport-https \
+             ca-certificates \
+             curl \
+             software-properties-common && \
+     curl -fsSL https://download.docker.com/linux/debian/gpg | apt-key add - && \
+     apt-key fingerprint 0EBFCD88
 
+# add Docker repository
+RUN add-apt-repository \
+    "deb [arch=amd64] https://download.docker.com/linux/debian $(lsb_release -cs) stable edge"
+
+# install Docker
+RUN apt-get update >/dev/null 2>&1 && \
+    apt-get install -y docker-ce && \
+    pip install docker-compose
+
+
+# install Python packages
 RUN mkdir /opt/toolbox/
 WORKDIR /opt/toolbox/
-COPY bin/ bin/
+ADD . .
+RUN pip install -r requirements.txt
 
-ENV TERM=vt100 DEBIAN_FRONTEND=teletype
-ENTRYPOINT ["/opt/toolbox/bin/entrypoint.sh"]
+# clean-up 
+RUN apt-get clean
+
+ENTRYPOINT ["/opt/toolbox/entrypoint.sh"]
