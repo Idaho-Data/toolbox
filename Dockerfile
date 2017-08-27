@@ -36,14 +36,22 @@ RUN apt-get update >/dev/null 2>&1 && \
     apt-get install -y docker-ce && \
     pip install docker-compose
 
-
-# install Python packages
 RUN mkdir /opt/toolbox/
 WORKDIR /opt/toolbox/
-ADD . .
+
+# install bash-git-prompt
+# ENV GIT_PROMPT_ONLY_IN_REPO=1
+
+# install Python packages
+
+COPY requirements.txt .
 RUN pip install -r requirements.txt
+
 
 # clean-up 
 RUN apt-get clean
 
-ENTRYPOINT ["/opt/toolbox/entrypoint.sh"]
+COPY . .
+
+ENV USER docker
+ENTRYPOINT ["/opt/toolbox/bin/entrypoint.sh"]
