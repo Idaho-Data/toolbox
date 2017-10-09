@@ -4,7 +4,3 @@ services:
     build: .
     image: idahodata/toolbox
     env_file: toolbox.env
-    volumes:
-      - type: bind
-        source: /var/run/docker.sock
-        target: /var/run/docker.sock

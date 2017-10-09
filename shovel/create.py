@@ -46,4 +46,11 @@ def airflow27():
 def base():
     copy('../bin/', '../docker/base/bin/')
     create(dockerpath='docker/base/', label='idahodata/base')
+
+@task
+def monica():
+    """
+    IDE Monica build
+    """
+    create(dockerpath='monica', label='idahodata/monica')
     

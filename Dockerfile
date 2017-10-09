@@ -33,7 +33,7 @@ RUN add-apt-repository \
 
 # install Docker
 RUN apt-get update >/dev/null 2>&1 && \
-    apt-get install -y docker-ce && \
+    apt-get install -y docker-ce wget && \
     pip install docker-compose
 
 RUN mkdir /opt/toolbox/
