@@ -28,7 +28,7 @@ CMD="docker run -h toolbox \
        -v $HOME/.gitconfig:/home/docker/.gitconfig \
        -v $HOME/.ssh:/home/docker/.ssh \
        idahodata/toolbox \
-       bash"
+       /bin/bash"
 
 echo $CMD
 eval $CMD

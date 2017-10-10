@@ -16,10 +16,6 @@ echo "docker ALL=(ALL) NOPASSWD: ALL" >>/etc/sudoers
 chown -R docker:docker /var/run/docker.sock
 chown -R docker:docker /opt/conda/
 
-# install LS_COLORS
-wget https://raw.github.com/trapd00r/LS_COLORS/master/LS_COLORS -O $HOME/.dircolors
-echo 'eval $(dircolors -b $HOME/.dircolors)' >> $HOME/.bashrc
-
 # install bash-git-prompt with
 # custom prompt
 cat <<GIT_COLORS >$HOME/.git-prompt-colors.sh
@@ -33,13 +29,19 @@ override_git_prompt_colors() {
 reload_git_prompt_colors "Custom"
 GIT_COLORS
 
+# toolbox bash config
 cat <<BASHRC >$HOME/.bashrc
 TERM=vt100
 DEBIAN_FRONTEND=teletype
 GIT_PROMPT_THEME="Custom"
 source /opt/toolbox/vendor/bash-git-prompt/gitprompt.sh
 alias ls='ls --color=auto'
+$( dircolors -b /home/docker/.dircolors )
 BASHRC
 
+# set ownership to local user
+chown -R docker:docker /var/run/docker.sock
+chown -R docker:docker /opt/conda/
+chown -R docker:docker /home/docker
 
 exec /usr/local/bin/gosu docker "$@"

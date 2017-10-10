@@ -39,19 +39,16 @@ RUN apt-get update >/dev/null 2>&1 && \
 RUN mkdir /opt/toolbox/
 WORKDIR /opt/toolbox/
 
-# install bash-git-prompt
-# ENV GIT_PROMPT_ONLY_IN_REPO=1
 
 # install Python packages
-
 COPY requirements.txt .
 RUN pip install -r requirements.txt
-
 
 # clean-up 
 RUN apt-get clean
 
-COPY . .
+COPY assets/LS_COLORS /home/docker/.dircolors
 
 ENV USER docker
+ENV SHELL /bin/bash
 ENTRYPOINT ["/opt/toolbox/bin/entrypoint.sh"]
