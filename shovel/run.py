@@ -50,3 +50,29 @@ def airflow27():
         name='airflow27',
         runcmd='/bin/bash',
         mount='../incubator-airflow')
+
+@task
+def monica():
+    """
+    IDE dev container
+    """
+    docker_flags = 'docker run ' + \
+                   '--hostname {name} ' + \
+                   '--name {name} ' + \
+                   '--rm ' + \
+                   '--env-file toolbox.env'
+    mount1 = '/home/jwatts/dev/toolbox/monica/storage/app/public/:/var/www/monica/storage/app/public/'
+    mount2 = '/home/jwatts/dev/toolbox/monica/tests/:/var/www/monica/tests/'
+    cmd = docker_flags + ' -ti -v {mount1} -v {mount2} {image} {runcmd}'
+    cmd = cmd.format(name='monica',
+                     mount1=mount1,
+                     mount2=mount2,
+                     image='idahodata/monica',
+                     runcmd='sqlite')
+    print('* ' + cmd)
+    subprocess.run(cmd.split(' '),
+                   stdin=sys.stdin,
+                   stdout=sys.stdout,
+                   stderr=sys.stderr)    
+    
+
