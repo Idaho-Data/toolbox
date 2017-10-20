@@ -39,14 +39,9 @@ alias ls='ls --color=auto'
 $( dircolors -b /home/docker/.dircolors )
 BASHRC
 
-
-# install vcardz Python module
-pip install -e vcardz/
-
 # set ownership to local user
 chown -R docker:docker /var/run/docker.sock
 chown -R docker:docker /opt/conda/
 chown -R docker:docker /home/docker
 
 exec /usr/local/bin/gosu docker "$@"
-

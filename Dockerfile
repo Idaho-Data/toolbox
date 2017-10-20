@@ -46,10 +46,5 @@ RUN pip install -r requirements.txt
 # clean-up 
 RUN apt-get clean
 
-# COPY assets/LS_COLORS /home/docker/.dircolors
-
-# ENV USER docker
-# ENV SHELL /bin/bash
-# ENV EDITOR /usr/bin/nano
 ENV TERM=vt100 DEBIAN_FRONTEND=teletype USER=docker SHELL=/bin/bash
 ENTRYPOINT ["/opt/toolbox/bin/entrypoint.sh"]

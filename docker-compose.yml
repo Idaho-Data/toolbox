@@ -1,6 +1,0 @@
-version: '3'
-services:
-  toolbox:
-    build: .
-    image: idahodata/toolbox
-    env_file: toolbox.env
