@@ -28,11 +28,12 @@ All you need is `docker build -t idahodata/toolbox .`
 
 #### I would love to run the container on my workstation
 The following files are mapped inside your Toolbox container:
-workstation|container
----|---
-$HOME/.gitconfig|/home/docker/.gitconfig
-* $HOME/.ssh|/home
-/var/run/docker.sock|/var/run/docker.sock
+
+workstation | container
+--- | ---
+`$HOME/.gitconfig` | `/home/docker/.gitconfig`
+`$HOME/.ssh` | `/home/docker/.ssh`
+`/var/run/docker.sock` | `/var/run/docker.sock`
 
 The first are required so git works properly inside Toolbox.
 
